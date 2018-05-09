@@ -11,6 +11,24 @@ void init(v8::Handle<v8::Object> target){
 NODE_MODULE(heap, init);
 
 
+/*
+  countObject
+  count the number of nodes with the type objectType.
+*/
+static int countObject(const v8::HeapSnapshot *heapSnapshot,
+                   v8::HeapGraphNode::Type objectType){
+    
+    int count = 0;
+    for(int i=0; i<heapSnapshot->GetNodesCount(); i++){
+        const v8::HeapGraphNode *currentNode = heapSnapshot->GetNode(i);
+
+        if(currentNode->GetType() == objectType){
+            count++;
+        }
+    }
+
+    return count;
+}
 
 /*
   diffHeaps
@@ -28,7 +46,11 @@ static v8::Local<v8::Value> diffHeaps(const v8::HeapSnapshot* start,
     Nan::EscapableHandleScope scope;
     v8::Local<v8::Object> heap = Nan::New<v8::Object>();
     
-    // TODO: diff the heaps
+    // calculate the differences between the heaps
+    int stringsDifference = countObject(finish, v8::HeapGraphNode::kString)
+        -  countObject(start, v8::HeapGraphNode::kString);
+
+    heap->Set(Nan::New("numStrings").ToLocalChecked(), Nan::New(stringsDifference));
     
     // escape the scope and return the allocated object
     return scope.Escape(heap);
