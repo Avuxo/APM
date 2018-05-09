@@ -82,6 +82,10 @@ void Heap::createJSObject(v8::Handle<v8::Object> obj){
         Nan::New<v8::FunctionTemplate>(Start);
 
     stopTemplate->InstanceTemplate()->SetInternalFieldCount(1);
+
+    Nan::SetPrototypeMethod(stopTemplate, "stop", Stop);
+    obj->Set(Nan::New<v8::String>("Heap").ToLocalChecked(),
+             stopTemplate->GetFunction());
 }
 /*
   Start
