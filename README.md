@@ -2,7 +2,11 @@
 
 Language Agent for Express and Node.js.
 
+![logo](https://i.imgur.com/ofYkOLj.png)
+
 # Setup
+
+Prerequisites: GNU Make, Python, a c++ compiler (tested with g++ and clang++)
 
 First, install `node-gyp`, the Node native build tool. Run `npm i node-gyp -g` to install it globally.
 
@@ -18,6 +22,9 @@ const apm = require('express-apm');
 
 // setup the Express middleware.
 // load this middleware first
-// contrast lang agent will capture requests and record metrics.
+// express-apm will capture requests and record metrics.
 app.use(apm);
 ```
+
+
+Tested using Node.js v9.11.1 and v8.11.1.
