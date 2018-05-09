@@ -1,14 +1,14 @@
 # APM
 
-Language Agent for Node.js for Express.
+Language Agent for Express and Node.js.
 
 # Setup
 
-APM is configured as an expressjs middleware.
+First, install `node-gyp`, the Node native build tool. Run `npm i node-gyp -g` to install it globally.
 
-First, install all the project dependencies with `$ npm i`.
+Install the package into your project with `$ npm i express-apm`.
 
-Then, install the `node-gyp` build system with `$ npm i node-gyp -g`.
+Installation note: Make sure that you have a version of Python supported by node-gyp (= v2.5.0 & < 3.0.0).
 
 # Usage
 

@@ -1,6 +1,16 @@
 #include "heap.h"
 
 /*
+  init
+  Allocate and initialize the heap object
+  entrypoint for NAN
+*/
+void init(v8::Handle<v8::Object> target){
+    Heap::createJSObject(target);
+}
+NODE_MODULE(heap, init);
+
+/*
   Initialize all the default fields
 */
 Heap::Heap():
