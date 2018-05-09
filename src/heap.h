@@ -24,7 +24,7 @@ class Heap : public Nan::ObjectWrap{
  public:
     Heap();
     static void createJSObject(v8::Handle<v8::Object> obj);
-    static NAN_METHOD(Create);
+    static NAN_METHOD(Start);
     static NAN_METHOD(Stop);
 };
 
