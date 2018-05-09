@@ -48,9 +48,13 @@ static v8::Local<v8::Value> diffHeaps(const v8::HeapSnapshot* start,
     
     // calculate the differences between the heaps
     int stringsDifference = countObject(finish, v8::HeapGraphNode::kString)
-        -  countObject(start, v8::HeapGraphNode::kString);
+        - countObject(start, v8::HeapGraphNode::kString);
+
+    int objectsDifference = countObject(finish, v8::HeapGraphNode::kObject)
+        - countObject(start, v8::HeapGraphNode::kObject);
 
     heap->Set(Nan::New("numStrings").ToLocalChecked(), Nan::New(stringsDifference));
+    heap->Set(Nan::New("numClasses").ToLocalChecked(), Nan::New(objectsDifference));
     
     // escape the scope and return the allocated object
     return scope.Escape(heap);
