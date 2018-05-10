@@ -74,16 +74,16 @@ static v8::Local<v8::Value> diffHeaps(const v8::HeapSnapshot* start,
 Heap::Heap():
     ObjectWrap(), start(nullptr), finish(nullptr){}
 
+/*
+  Clean up allocated memory
+*/
 Heap::~Heap(){
-    if(this->start){
-        this->start->Delete();
-        this->start = nullptr;
-    }
+    // cast because the v8::HeapSnapshot::Delete() function expects non-const.
+    ((v8::HeapSnapshot *) start)->Delete();
+    start = nullptr;
 
-    if(this->finish){
-        this->finish->Delete();
-        this->finish = nullptr;
-    }
+    ((v8::HeapSnapshot *) finish)->Delete();
+    finish = nullptr;
 }
 
 /*
