@@ -1,9 +1,11 @@
 const app = require('express')();
-const heap = require('../index');
+const apm = require('../index');
 
-const PORT = 8080;
+const PORT = 3000;
 
-app.use(heap);
+const server = new apm.server(8080);
+
+app.use(apm(server.emitter));
 
 app.get('/', (req, res) => {
     res.send('Hello, world!');
