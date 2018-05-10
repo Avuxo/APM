@@ -1,4 +1,5 @@
 #include "heap.h"
+#include <ctime>
 
 /*
   init
@@ -53,8 +54,12 @@ static v8::Local<v8::Value> diffHeaps(const v8::HeapSnapshot* start,
     int objectsDifference = countObject(finish, v8::HeapGraphNode::kObject)
         - countObject(start, v8::HeapGraphNode::kObject);
 
+    int id = (int) std::time(nullptr); // get a unique ID for the request (time)
+
+    
     heap->Set(Nan::New("numStrings").ToLocalChecked(), Nan::New(stringsDifference));
     heap->Set(Nan::New("numClasses").ToLocalChecked(), Nan::New(objectsDifference));
+    heap->Set(Nan::New("id").ToLocalChecked(), Nan::New(id));
     
     // escape the scope and return the allocated object
     return scope.Escape(heap);

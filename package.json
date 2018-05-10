@@ -1,6 +1,6 @@
 {
   "name": "express-apm",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Language agent for Node.js and Express",
   "main": "index.js",
   "scripts": {
