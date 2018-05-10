@@ -36,6 +36,8 @@ app.use(apm(server.emitter));
 // your express code
 ```
 
+Or without the use of the build in server:
+
 ```js
 const app = require('express')();
 const apm = require('express-apm');
