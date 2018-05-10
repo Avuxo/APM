@@ -5,6 +5,8 @@ Language Agent for Express and Node.js.
 
 ![logo](https://i.imgur.com/EDZ0bTE.png)
 
+![badge](https://nodei.co/npm/express-apm.png)
+
 ## Setup
 
 Prerequisites: GNU Make, Python, a c++ compiler (tested with g++ and clang++)
