@@ -16,6 +16,9 @@ class Server{
         this.setupRoutes();
         this.data = []; // collected data.
 
+        // setup static file serving (js, css, img).
+        this.app.use('/public', express.static(path.resolve('public')));
+
         this.emitter.on('heap', (finished) => {
             // push the data into the collection.
             this.data.push(finished);
@@ -47,7 +50,10 @@ class Server{
         // this is so the charts can build a past repetoire of data
         this.app.get('/fullMetrics', (req, res) => {
             if(this.data[0] !== undefined){
-                res.send(this.data);
+                let response = {
+                    "data": this.data
+                };
+                res.send(JSON.stringify(response));
             } else { // no data collected yet.
                 res.sendStatus(503);
             }
