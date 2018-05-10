@@ -3,7 +3,7 @@
 Language Agent for Express and Node.js.
 [![Build Status](https://travis-ci.com/Avuxo/APM.svg?branch=master)](https://travis-ci.com/Avuxo/APM)
 
-![logo](https://i.imgur.com/ofYkOLj.png)
+![logo](https://i.imgur.com/EDZ0bTE.png)
 
 ## Setup
 
