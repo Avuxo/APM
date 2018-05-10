@@ -5,14 +5,14 @@ const heap = require('bindings')('apm');
   app.use(MODULE_NAME);
 */
 module.exports = (req, res, next) => {
-    const hd = new heap.Heap();
+    const startHeap = new heap.Heap();
     const startTime =  Date.now();
 
     // once the request has finished, deal with the result.
     res.once('finish', () => {
-        let result = hd.stop();
-        result.time = Date.now() - startTime; // delta time is in milliseconds
-        console.log(result);
+        let finishHeap = startHeap.stop();
+        finishHeap.time = Date.now() - startTime; // delta time is in milliseconds
+        console.log(finishHeap);
     });
 
     next();
