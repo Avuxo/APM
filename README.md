@@ -46,7 +46,7 @@ const apm = require('express-apm');
 
 // setup the Express middleware.
 // load this middleware first
-// pass `null' when you don't wannt use the local express-apm analytics server.
+// pass `null' when you don't want use the local express-apm analytics server.
 app.use(apm(null));
 ```
 

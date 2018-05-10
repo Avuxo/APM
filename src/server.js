@@ -42,6 +42,16 @@ class Server{
                 res.sendStatus(503);
             }
         });
+
+        // called at startup of front-end, requests all past metrics
+        // this is so the charts can build a past repetoire of data
+        this.app.get('/fullMetrics', (req, res) => {
+            if(this.data[0] !== undefined){
+                res.send(this.data);
+            } else { // no data collected yet.
+                res.sendStatus(503);
+            }
+        });
     }
 }
 

@@ -17,9 +17,12 @@ NODE_MODULE(heap, init);
   count the number of nodes with the type objectType.
 */
 static int countObject(const v8::HeapSnapshot *heapSnapshot,
-                   v8::HeapGraphNode::Type objectType){
+                       v8::HeapGraphNode::Type objectType){
     
     int count = 0;
+    
+    // loop through every heap node in the snapshot
+    // and check if it's the right type.
     for(int i=0; i<heapSnapshot->GetNodesCount(); i++){
         const v8::HeapGraphNode *currentNode = heapSnapshot->GetNode(i);
 
@@ -73,18 +76,6 @@ static v8::Local<v8::Value> diffHeaps(const v8::HeapSnapshot* start,
 */
 Heap::Heap():
     ObjectWrap(), start(nullptr), finish(nullptr){}
-
-/*
-  Clean up allocated memory
-*/
-Heap::~Heap(){
-    // cast because the v8::HeapSnapshot::Delete() function expects non-const.
-    ((v8::HeapSnapshot *) start)->Delete();
-    start = nullptr;
-
-    ((v8::HeapSnapshot *) finish)->Delete();
-    finish = nullptr;
-}
 
 /*
   createJSObject
