@@ -73,6 +73,19 @@ static v8::Local<v8::Value> diffHeaps(const v8::HeapSnapshot* start,
 */
 Heap::Heap():
     ObjectWrap(), start(nullptr), finish(nullptr){}
+
+Heap::~Heap(){
+    if(this->start){
+        this->start->Delete();
+        this->start = nullptr;
+    }
+
+    if(this->finish){
+        this->finish->Delete();
+        this->finish = nullptr;
+    }
+}
+
 /*
   createJSObject
   create the object to be seen with `require()'.
