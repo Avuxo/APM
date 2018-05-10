@@ -7,7 +7,8 @@ const heap = require('bindings')('apm');
 module.exports = (req, res, next) => {
     const hd = new heap.Heap();
     const startTime =  Date.now();
-    
+
+    // once the request has finished, deal with the result.
     res.once('finish', () => {
         let result = hd.stop();
         result.time = Date.now() - startTime; // delta time is in milliseconds
@@ -16,3 +17,6 @@ module.exports = (req, res, next) => {
 
     next();
 }
+
+/*independant heap class*/
+module.exports.Heap = heap.Heap;
