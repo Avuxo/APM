@@ -19,6 +19,16 @@ module.exports = (emitter) => {
             finishHeap.time = Date.now() - startTime; // delta time is in milliseconds
             //console.log(finishHeap);
 
+            // garbage collection happened during the request
+            if(finishHeap.numStrings < 0){
+                finishHeap.numStrings = 0;
+            }
+            
+            // garbage collection happened during the request
+            if(finishHeap.numClasses < 0){
+                finisheeap.numClasses = 0;
+            }
+
             // null is supposed to be used, but catch undefined too
             if(emitter !== undefined && emitter !== null){
                 // announce the finished heap's data

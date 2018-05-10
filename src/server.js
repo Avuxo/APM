@@ -14,9 +14,11 @@ class Server{
         this.emitter = new EventEmitter();
         this.app = express();
         this.setupRoutes();
+        this.data = []; // collected data.
 
         this.emitter.on('heap', (finished) => {
-            console.log(finished);
+            // push the data into the collection.
+            this.data.push(finished);
         });
         
         this.app.listen(this.port, () => {
@@ -29,6 +31,16 @@ class Server{
         this.app.get('/', (req, res) => {
             // send the index
             res.sendFile(path.resolve('views/index.html'));
+        });
+
+        // REST endpoint for metrics
+        this.app.get('/metrics', (req, res) => {
+            // send the most recent metrics
+            if(this.data[0] !== undefined){
+                res.send(JSON.stringify(this.data[this.data.length - 1]));
+            } else { // no data collected yet.
+                res.sendStatus(503);
+            }
         });
     }
 }
