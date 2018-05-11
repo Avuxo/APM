@@ -54,6 +54,8 @@ app.use(apm(null));
 
 When using APM with Express, the front-end graphs will update every 3 seconds -- assuming there is a change -- and will pull the most recent successful request. All previous requests will be loaded when you open the dashboard for the first time. To load all previous requests (including those missde during the 3 second intervals), refresh the page.
 
+The REST endpoint `/metrics` on the APM port will allow you to get the most recent request outside of the dashboard. The `/fullMetrics` endpoint provides all of the previous requests.
+
 APM can be used outside of Express aswell. In order to use outside of your webapp, simply use the exported `Heap` class. First, instantiate the `Heap` class, and when you're done call `Heap.stop();`
 
 ```js
