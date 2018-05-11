@@ -23,6 +23,7 @@ var data = {
         strings: [],
         classes: []
     },
+    heapUsageData: [],
     lastIDSeen: 0
 };
 
@@ -90,7 +91,19 @@ var memoryUsage = c3.generate({
     donut: {
         title: 'Heap Usage Breakdown'
     }
-})
+});
+
+var heapUsage = c3.generate({
+    bindto: '#heapUsageChart',
+    data: {
+        columns: [
+            ['Heap Used']
+        ]
+    },
+    title: {
+        text: 'Amount of Heap used (bytes)'
+    }
+});
 
 // async HTTP get request wrapper around XMLHR
 function httpGET(callback, url){
@@ -174,6 +187,7 @@ function loadInitialData(res){
 
 // parse response into the `data' global object
 function updateData(res){
+    console.log(res);
     data.lastIDSeen = res.id;
 
     // add all of `res' data into the data object in the correct format
@@ -181,6 +195,7 @@ function updateData(res){
     data.numClasses.push(res.numClasses);
     data.numNodes.push(res.numNodes);
     data.time.push(res.time);
+    data.heapUsagedata.push(res.memoryUsed);
     
     // calculate the averages for the bar graph.
     data.averageObjects.numStrings = (calculateAverage('numStrings'));
@@ -202,6 +217,13 @@ function updateCharts(){
         duration: 100
     });
 
+    heapUsage.load({
+        columns: [
+            ['Heap Used', data.heapUsageData]
+        ],
+        duration: 100
+    });
+
     // update the `time per request' graph.
     timePerRequest.load({
         columns: [
@@ -215,7 +237,8 @@ function updateCharts(){
         columns: [
             ['number of strings', data.averageObjects.numStrings],
             ['number of classes', data.averageObjects.numClasses]
-        ]
+        ],
+        duration: 100
     });
 
     // update the donut graph
@@ -226,7 +249,8 @@ function updateCharts(){
             ['Other', Math.floor(100 * (diffedNodes / data.averageObjects.numNodes))],
             ['Strings', Math.floor(100 * (data.averageObjects.numStrings / data.averageObjects.numNodes))],
             ['Classes', Math.floor(100 * (data.averageObjects.numClasses / data.averageObjects.numNodes))]
-        ]
+        ],
+        duration: 100
     });
     
 }

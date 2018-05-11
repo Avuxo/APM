@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>APM Console</title>
+        <title>APM Dashboard</title>
         <!-- chart stylesheet -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.5.4/c3.min.css">
         <!-- APM stylsheet -->
@@ -8,13 +8,15 @@
         </style>
     </head>
     <body>
-        <h1>APM | Console</h1>
+        <h1>APM | Dashboard</h1>
         <div class="content">
             <div id="numUsedChart" class="largeChart"></div>
             <div id="timePerRequestChart" class="largeChart"></div>
+            <div id="heapUsageChart" class="largeChart"></div>
             <div id="averageObjectsChart" class="smallChart"></div>
             <div id="memoryUsageChart" class="smallChart"></div>
         </div>
+        <p>Ben [Avuxo]</p>
         <!-- Load the chart libraries -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.5.4/c3.min.js"></script>

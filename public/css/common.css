@@ -10,6 +10,7 @@ body{
 
 /* for the small charts on the bottom */
 .smallChart{
-    width: 33%;
+    width: 25%;
+    height: 40%;
     float: left;
 }
