@@ -7,21 +7,13 @@ Language Agent for Express and Node.js.
 
 ![badge](https://nodei.co/npm/express-apm.png)
 
-## Setup
+## Purpose
 
-Prerequisites: GNU Make, Python, and a c++ compiler (tested with g++ and clang++)
-
-First, install `node-gyp`: the Node native build tool. You can run `npm i node-gyp -g` to install it globally.
-
-Install the `express-apm` package into your project with `$ npm i express-apm`.
-
-Installation note: Make sure that you have a version of Python supported by node-gyp (= v2.5.0 & < 3.0.0).
-
-Support tested for Node.js 8 and 9.
+When writing modern Express applications for a large userbase, it's important to see much of your server's limited resources are being used by your app. As such, tools like APM provide an interface to see deep into what your application is doing. Is it allocating too many objects? Are too many strings being allocated? By looking at the numbers and modifying your code, you can check for changes in speed and performance. Through the Express middleware, one can also quickly check and compare the time to complete the requests.
 
 ## Usage
 
-The APM dashboard provides a wide variety of information in one simple view. All of the information being returned from the Node.js Language agent gets parsed into a simple to read at-a-glance format. Although the dashboard is not a requirement for usage with (or without) Express, it's recommended.
+The APM dashboard provides a wide variety of information in one simple view. All of the information being returned from the Node.js Language agent gets parsed into a simple to read at a glance format. Although the dashboard is not a requirement for usage with (or without) Express, it's recommended.
 
 ![example](graph-screenshot.png)
 
@@ -70,7 +62,7 @@ const apm = require('express-apm');
 app.use(apm(null));
 ```
 
-APM can be used outside of Express aswell. In order to use outside of your webapp, simply use the exported `Heap` class. First, instantiate the `Heap` class, and when you're done call `Heap.stop();`
+APM can be used outside of Express as well. In order to use outside of your webapp, simply use the exported `Heap` class. First, instantiate the `Heap` class, and when you're done call `Heap.stop();`
 
 ```js
 const apm = require('express-apm');
@@ -88,6 +80,16 @@ When not using the express middleware, time checks are not performed. This can e
 
 Furthermore, heap size checks are not performed, but this can also be accessed natively in Node.js. Use the `process.memoryUsage()` function to get this information.
 
-## Purpose
 
-When writing modern Express applications for a large userbase, it's important to see much of your server's limited resources are being used by your app. As such, tools like APM provide an interface to see deep into what your application is doing. Is it allocating too many objects? Are too many strings being allocated? By looking at the numbers and modifying your code, you can check for changes in speed and performance. Through the Express middleware, one can also quickly check and compare the time to complete the requests.
+## Setup
+
+1.) Prerequisites: GNU Make, Python, and a c++ compiler (tested with g++ and clang++)
+
+2.) Install `node-gyp`: the Node native build tool. You can run `npm i node-gyp -g` to install it globally.
+
+3.) Install the `express-apm` package into your project with `$ npm i express-apm`.
+
+Installation note: Make sure that you have a version of Python supported by node-gyp (= v2.5.0 & < 3.0.0).
+
+Support tested for Node.js 8 and 9.
+ 

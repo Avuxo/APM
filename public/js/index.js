@@ -23,7 +23,7 @@ var data = {
         strings: [],
         classes: []
     },
-    heapUsageData: [],
+    heapUsage: [],
     lastIDSeen: 0
 };
 
@@ -89,7 +89,7 @@ var memoryUsage = c3.generate({
         type: 'donut'
     },
     donut: {
-        title: 'Heap Usage Breakdown'
+        title: 'Heap Node Breakdown'
     }
 });
 
@@ -170,11 +170,13 @@ function calculateAverage(key){
 function loadInitialData(res){
     data.lastIDSeen = res[res.length - 1].id;
 
-    // map the result number strings to create the number strings array
+    // map the result objects into the data object
+    // this is for parsing the data from the request `data' object.
     data.numStrings = res.map(obj => obj.numStrings);
     data.numClasses = res.map(obj => obj.numClasses);
     data.time       = res.map(obj => obj.time);
     data.numNodes   = res.map(obj => obj.numNodes);
+    data.heapUsage  = res.map(obj => obj.memoryUsed);
 
     // calculate the averages for the bar graph.
     data.averageObjects.numStrings = (calculateAverage('numStrings'));
@@ -195,7 +197,7 @@ function updateData(res){
     data.numClasses.push(res.numClasses);
     data.numNodes.push(res.numNodes);
     data.time.push(res.time);
-    data.heapUsagedata.push(res.memoryUsed);
+    data.heapUsage.push(res.memoryUsed);
     
     // calculate the averages for the bar graph.
     data.averageObjects.numStrings = (calculateAverage('numStrings'));
@@ -208,6 +210,7 @@ function updateData(res){
 // update all of the charts with new data
 // assumes the top of the array is new data (is dependent on where it's called from).
 function updateCharts(){
+
     // update the strings and objects creation graph
     numUsed.load({
         columns: [
@@ -219,7 +222,7 @@ function updateCharts(){
 
     heapUsage.load({
         columns: [
-            ['Heap Used', data.heapUsageData]
+            ['Heap Used'].concat(data.heapUsage)
         ],
         duration: 100
     });
@@ -243,12 +246,18 @@ function updateCharts(){
 
     // update the donut graph
     // get the number of nodes not used by strings or objects
-    let diffedNodes = data.averageObjects.numNodes - data.averageObjects.numStrings - data.averageObjects.numClasses;
+    let diffedNodes = data.averageObjects.numNodes -
+        data.averageObjects.numStrings -
+        data.averageObjects.numClasses;
+    
     memoryUsage.load({
         columns: [
-            ['Other', Math.floor(100 * (diffedNodes / data.averageObjects.numNodes))],
-            ['Strings', Math.floor(100 * (data.averageObjects.numStrings / data.averageObjects.numNodes))],
-            ['Classes', Math.floor(100 * (data.averageObjects.numClasses / data.averageObjects.numNodes))]
+            ['Other', Math.floor(100 * (diffedNodes 
+                                        / data.averageObjects.numNodes))],
+            ['Strings', Math.floor(100 * (data.averageObjects.numStrings
+                                          / data.averageObjects.numNodes))],
+            ['Classes', Math.floor(100 * (data.averageObjects.numClasses
+                                          / data.averageObjects.numNodes))]
         ],
         duration: 100
     });
