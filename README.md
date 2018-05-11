@@ -21,7 +21,7 @@ Support tested for Node.js 8 and 9.
 
 ## Usage
 
-![example](https://i.imgur.com/9NbufqR.png)
+![example](graph-screenshot.png)
 
 To embed in express and view the analytics in a browser, simply use the provided middleware:
 
