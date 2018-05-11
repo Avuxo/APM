@@ -9,15 +9,15 @@ Language Agent for Express and Node.js.
 
 ## Setup
 
-Prerequisites: GNU Make, Python, a c++ compiler (tested with g++ and clang++)
+Prerequisites: GNU Make, Python, and a c++ compiler (tested with g++ and clang++)
 
-First, install `node-gyp`, the Node native build tool. Run `npm i node-gyp -g` to install it globally.
+First, install `node-gyp`: the Node native build tool. You can run `npm i node-gyp -g` to install it globally.
 
-Install the package into your project with `$ npm i express-apm`.
+Install the `express-apm` package into your project with `$ npm i express-apm`.
 
 Installation note: Make sure that you have a version of Python supported by node-gyp (= v2.5.0 & < 3.0.0).
 
-Tested using Node.js v9.11.1 and v8.11.1.
+Support tested for Node.js 8 and 9.
 
 ## Usage
 
@@ -40,7 +40,7 @@ app.use(apm(server.emitter));
 // your express code
 ```
 
-Or without the use of the build in server:
+Or without the use of the built in express server:
 
 ```js
 const app = require('express')();
@@ -52,7 +52,7 @@ const apm = require('express-apm');
 app.use(apm(null));
 ```
 
-To use elsewhere in Javascript, use the exported `Heap` class. This will provide you with the same information that is otherwise exported through the Express middleware.
+APM can be used outside of Express aswell. In order to use outside of your webapp, simply use the exported `Heap` class. First, instantiate the `Heap` class, and when you're done call `Heap.stop();`
 
 ```js
 const apm = require('express-apm');
@@ -62,11 +62,13 @@ var startHeap = new apm.Heap();
 
 // do stuff
 
-var finishHeap = finishHeap(); // finish heap check and diff the two
+var finishHeap = startHeap.stop(); // finish heap check and diff the two
 console.log(finishHeap);
 ```
 
 When not using the express middleware, time checks are not performed. This can easily be implemented with a number of timing packages or through the use of the Javascript `Date.now()` functionality.
+
+Furthermore, heap size checks are not performed, but this can also be accessed natively in Node.js. Use the `process.memoryUsage()` function to get this information.
 
 ## Purpose
 
