@@ -21,6 +21,8 @@ Support tested for Node.js 8 and 9.
 
 ## Usage
 
+The APM dashboard provides a wide variety of information in one simple view. All of the information being returned from the Node.js Language agent gets parsed into a simple to read at-a-glance format. Although the dashboard is not a requirement for usage with (or without) Express, it's recommended.
+
 ![example](graph-screenshot.png)
 
 To embed in express and view the analytics in a browser, simply use the provided middleware:
@@ -44,7 +46,7 @@ When using APM with Express, the front-end graphs will update every 3 seconds --
 The REST endpoint `/metrics` on the APM port will allow you to get the most recent request without the use of the dashboard; the `/fullMetrics` endpoint provides every previous request.
 
 Each request returns an object in the format:
-```json
+```
 {
         id: Number, // the unique ID of the request
         memoryUsed: Number, // the amount of memory used (in killobytes) during the request
