@@ -17,7 +17,7 @@ class Server{
         this.data = []; // collected data.
 
         // setup static file serving (js, css, img).
-        this.app.use('/public', express.static(path.resolve('public')));
+        this.app.use('/public', express.static(path.resolve(__dirname, '..', 'public')));
 
         this.emitter.on('heap', (finished) => {
             // push the data into the collection.
@@ -25,7 +25,7 @@ class Server{
         });
         
         this.app.listen(this.port, () => {
-            console.log(`Listening on port ${port}`);
+            console.log(`APM Listening on port ${this.port}`);
         });
     }
 
@@ -33,7 +33,7 @@ class Server{
     setupRoutes(){
         this.app.get('/', (req, res) => {
             // send the index
-            res.sendFile(path.resolve('views/index.html'));
+            res.sendFile(path.resolve(__dirname, '..', 'views/index.html'));
         });
 
         // REST endpoint for metrics
