@@ -34,6 +34,7 @@ static int countObject(const v8::HeapSnapshot *heapSnapshot,
     return count;
 }
 
+
 /*
   diffHeaps
   Compare two different heap snapshots to find differences
@@ -57,12 +58,17 @@ static v8::Local<v8::Value> diffHeaps(const v8::HeapSnapshot* start,
     int objectsDifference = countObject(finish, v8::HeapGraphNode::kObject)
         - countObject(start, v8::HeapGraphNode::kObject);
 
+    // calculate the total number of nodes difference.
+    int numNodes = finish->GetNodesCount() - start->GetNodesCount();
+    
+    
     int id = (int) std::time(nullptr); // get a unique ID for the request (time)
 
     
     heap->Set(Nan::New("numStrings").ToLocalChecked(), Nan::New(stringsDifference));
     heap->Set(Nan::New("numClasses").ToLocalChecked(), Nan::New(objectsDifference));
     heap->Set(Nan::New("id").ToLocalChecked(), Nan::New(id));
+    heap->Set(Nan::New("numNodes").ToLocalChecked(), Nan::New(numNodes));
     
     // escape the scope and return the allocated object
     return scope.Escape(heap);

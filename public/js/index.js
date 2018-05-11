@@ -5,10 +5,12 @@
 var data = {
     numStrings: [],
     numClasses: [],
+    numNodes: [],
     time: [],
     averageObjects: {
         numStrings: 0,
-        numClasses: 0
+        numClasses: 0,
+        numNodes: 0
     },
     memoryUsageData: {
         other: [],
@@ -80,7 +82,7 @@ var memoryUsage = c3.generate({
         type: 'donut'
     },
     donut: {
-        title: 'Memory Usage Breakdown'
+        title: 'Heap Usage Breakdown'
     }
 })
 
@@ -153,11 +155,13 @@ function loadInitialData(res){
     data.numStrings = res.map(obj => obj.numStrings);
     data.numClasses = res.map(obj => obj.numClasses);
     data.time       = res.map(obj => obj.time);
+    data.numNodes   = res.map(obj => obj.numNodes);
 
     // calculate the averages for the bar graph.
     data.averageObjects.numStrings = (calculateAverage('numStrings'));
     data.averageObjects.numClasses = (calculateAverage('numClasses'));
-
+    data.averageObjects.numNodes   = (calculateAverage('numNodes'));
+    
     // update the charts
     updateCharts();
 }
@@ -169,11 +173,13 @@ function updateData(res){
     // add all of `res' data into the data object in the correct format
     data.numStrings.push(res.numStrings);
     data.numClasses.push(res.numClasses);
+    data.numNodes.push(res.numNodes);
     data.time.push(res.time);
     
     // calculate the averages for the bar graph.
     data.averageObjects.numStrings = (calculateAverage('numStrings'));
     data.averageObjects.numClasses = (calculateAverage('numClasses'));
+    data.averageObjects.numNodes   = (calculateAverage('numNodes'));
 
     updateCharts();
 }
@@ -189,6 +195,7 @@ function updateCharts(){
         duration: 100
     });
 
+    // update the `time per request' graph.
     timePerRequest.load({
         columns: [
             ['Time per request (ms)'].concat(data.time)
@@ -196,10 +203,22 @@ function updateCharts(){
         duration: 100
     });
 
+    // update the average bar graph.
     averageObjects.load({
         columns: [
             ['number of strings', data.averageObjects.numStrings],
             ['number of classes', data.averageObjects.numClasses]
+        ]
+    });
+
+    // update the donut graph
+    // get the number of nodes not used by strings or objects
+    let diffedNodes = data.averageObjects.numNodes - data.averageObjects.numStrings - data.averageObjects.numClasses;
+    memoryUsage.load({
+        columns: [
+            ['Other', Math.floor(100 * (diffedNodes / data.averageObjects.numNodes))],
+            ['Strings', Math.floor(100 * (data.averageObjects.numStrings / data.averageObjects.numNodes))],
+            ['Classes', Math.floor(100 * (data.averageObjects.numClasses / data.averageObjects.numNodes))]
         ]
     });
     

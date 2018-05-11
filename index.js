@@ -10,9 +10,9 @@ const server = require('./src/server');
 */
 module.exports = (emitter) => {
     return (req, res, next) => {
-        const startHeap = new heap.Heap();
-        const startTime =  Date.now();
-        const startMemory = process.memoryUsage().heapUsed;
+        let startHeap = new heap.Heap();
+        let startTime =  Date.now();
+        let startMemory = process.memoryUsage().heapUsed;
 
         // once the request has finished, deal with the result.
         res.once('finish', () => {
@@ -31,10 +31,16 @@ module.exports = (emitter) => {
                 finishHeap.numClasses = 0;
             }
 
+            // garbage collection happened during the request
             if(finishHeap.memoryUsed < 0){
                 finishHeap.memoryUsed = 0;
             }
 
+            // garbage collection happened during the request
+            if(finishHeap.numNodes < 0){
+                finishHeap.numNodes = 0;
+            }
+            
             // null is supposed to be used, but catch undefined too
             if(emitter !== undefined && emitter !== null){
                 // announce the finished heap's data
