@@ -43,7 +43,8 @@ When using APM with Express, the front-end graphs will update every 3 seconds --
 
 The REST endpoint `/metrics` on the APM port will allow you to get the most recent request without the use of the dashboard; the `/fullMetrics` endpoint provides every previous request.
 
-Each request returns an object in the format: ```json
+Each request returns an object in the format:
+```json
 {
         id: Number, // the unique ID of the request
         memoryUsed: Number, // the amount of memory used (in killobytes) during the request
