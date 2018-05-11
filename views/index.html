@@ -8,8 +8,12 @@
         </style>
     </head>
     <body>
+        <h1>APM | Console</h1>
         <div class="content">
-            <div id="chart"></div>
+            <div id="numUsedChart" class="largeChart"></div>
+            <div id="timePerRequestChart" class="largeChart"></div>
+            <div id="averageObjectsChart" class="smallChart"></div>
+            <div id="memoryUsageChart" class="smallChart"></div>
         </div>
         <!-- Load the chart libraries -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>

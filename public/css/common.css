@@ -1,0 +1,15 @@
+body{
+    font-family: Segoe UI,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+}
+
+/* for the large line graphs */
+.largeChart{
+    width: 75%;
+    height: 25%;
+}
+
+/* for the small charts on the bottom */
+.smallChart{
+    width: 33%;
+    float: left;
+}

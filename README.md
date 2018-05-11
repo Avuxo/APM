@@ -21,6 +21,8 @@ Tested using Node.js v9.11.1 and v8.11.1.
 
 ## Usage
 
+![example](https://i.imgur.com/9NbufqR.png)
+
 To embed in express and view the analytics in a browser, simply use the provided middleware:
 
 ```js
