@@ -1,14 +1,22 @@
-
-// global, complete array of all data
+// structured data object for updating charts more easily.
 // this is loaded at the start of the program
 // updates are checked every 3000ms, but data is only pushed when
 // a new ID is seen.
-var data = [];
-
-// the last APM ID seen. This is set at the end of the init function
-// and is reset at a maximum every 3000ms.
-var lastIDSeen = 0;
-
+var data = {
+    numStrings: [],
+    numClasses: [],
+    time: [],
+    averageObjects: {
+        numStrings: 0,
+        numClasses: 0
+    },
+    memoryUsageData: {
+        other: [],
+        strings: [],
+        classes: []
+    },
+    lastIDSeen: 0
+};
 
 /*
   Create the C3 charts
@@ -19,8 +27,8 @@ var numUsed = c3.generate({
     bindto: '#numUsedChart',
     data: {
         columns:[
-            ['number of strings allocated', 27, 3, 3, 0, 3],
-            ['number of classes loaded', 45, 5, 5, 0, 5]
+            ['number of strings allocated'],
+            ['number of classes loaded']
         ]
     },
     title: {
@@ -33,7 +41,7 @@ var timePerRequest = c3.generate({
     bindto: '#timePerRequestChart',
     data: {
         columns:[
-            ['Time per request (ms)', 421, 568, 812, 532, 714]
+            ['Time per request (ms)']
         ]
     },
     title: {
@@ -46,8 +54,8 @@ var averageObjects = c3.generate({
     bindto: '#averageObjectsChart',
     data: {
         columns: [
-            ["number of strings", 13],
-            ["number of classes", 25]
+            ["number of strings"],
+            ["number of classes"]
         ],
         types: {
             'number of strings': 'bar',
@@ -65,9 +73,9 @@ var memoryUsage = c3.generate({
     bindto: '#memoryUsageChart',
     data: {
         columns: [
-            ['Other', 70],
-            ['Strings', 10],
-            ['Classes', 20]
+            ['Other'],
+            ['Strings'],
+            ['Classes']
         ],
         type: 'donut'
     },
@@ -88,26 +96,111 @@ function httpGET(callback, url){
     http.send(null);
 }
 
+
+// calculate the average of a dataset with a given key
+// average time per request: calculateAverage('time')
+// always uses the `data' object.
+function calculateAverage(key){
+    // look through the dataset
+    let total = 0;
+    for(let item in data[key]){
+        // sum up the data
+        total += data[key][item];
+    }
+    // calculate the mean.
+    return (total / data[key].length);
+}
+
+
+
+
+
 // entry point //
 (function(){
     // initial fetch of data.
     httpGET(function(res){
         // the first ID is the id of the first thing found.
-        data = JSON.parse(res).data;
-        lastIDSeen = data[data.length - 1].id;
+        let response = JSON.parse(res).data;
+
+        loadInitialData(response);
     }, "/fullMetrics");
 
 
     // every 3 seconds poll the server to check for new information.
     setInterval(function(){
-        console.log('mom');
         httpGET(function(res){
             let response =  JSON.parse(res);
             // ensure that the same data is not being added twice.
-            if(response.id !== lastIDSeen){
-                data.push(response);
-                lastIDSeen = response.id;
+            if(response.id !== data.lastIDSeen){
+                // update the charts
+                updateData(response);
             }
         }, "/metrics")
     }, 3000);
 })();
+
+
+
+
+
+// load the data initially.
+// this is only called at the start of the main function.
+// parses original object into the `data' object.
+function loadInitialData(res){
+    data.lastIDSeen = res[res.length - 1].id;
+
+    // map the result number strings to create the number strings array
+    data.numStrings = res.map(obj => obj.numStrings);
+    data.numClasses = res.map(obj => obj.numClasses);
+    data.time       = res.map(obj => obj.time);
+
+    // calculate the averages for the bar graph.
+    data.averageObjects.numStrings = (calculateAverage('numStrings'));
+    data.averageObjects.numClasses = (calculateAverage('numClasses'));
+
+    // update the charts
+    updateCharts();
+}
+
+// parse response into the `data' global object
+function updateData(res){
+    data.lastIDSeen = res.id;
+
+    // add all of `res' data into the data object in the correct format
+    data.numStrings.push(res.numStrings);
+    data.numClasses.push(res.numClasses);
+    data.time.push(res.time);
+    
+    // calculate the averages for the bar graph.
+    data.averageObjects.numStrings = (calculateAverage('numStrings'));
+    data.averageObjects.numClasses = (calculateAverage('numClasses'));
+
+    updateCharts();
+}
+// update all of the charts with new data
+// assumes the top of the array is new data (is dependent on where it's called from).
+function updateCharts(){
+    // update the strings and objects creation graph
+    numUsed.load({
+        columns: [
+            ['number of strings allocated'].concat(data.numStrings),
+            ['number of classes loaded'].concat(data.numClasses)
+        ],
+        duration: 100
+    });
+
+    timePerRequest.load({
+        columns: [
+            ['Time per request (ms)'].concat(data.time)
+        ],
+        duration: 100
+    });
+
+    averageObjects.load({
+        columns: [
+            ['number of strings', data.averageObjects.numStrings],
+            ['number of classes', data.averageObjects.numClasses]
+        ]
+    });
+    
+}
