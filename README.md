@@ -41,8 +41,19 @@ app.use(apm(server.emitter));
 ```
 When using APM with Express, the front-end graphs will update every 3 seconds -- assuming there is a change -- and will pull the most recent successful request. All previous requests will be loaded when you open the dashboard for the first time. To load all previous requests (including those missde during the 3 second intervals), refresh the page.
 
-The REST endpoint `/metrics` on the APM port will allow you to get the most recent request outside of the dashboard. The `/fullMetrics` endpoint provides all of the previous requests.
+The REST endpoint `/metrics` on the APM port will allow you to get the most recent request without the use of the dashboard; the `/fullMetrics` endpoint provides every previous request.
 
+Each request returns an object in the format: ```json
+{
+        id: Number, // the unique ID of the request
+        memoryUsed: Number, // the amount of memory used (in killobytes) during the request
+        numClasses: Number, // the number of classes loaded during the request
+        numNodes: Number, // the number of Heap Nodes (total) during the request
+        numStrings: Number, // the number of strings loaded during the request
+        time: 375 // the amount of time (in ms) spent during the request
+}
+```
+When the `/fullMetrics` endpoint is used, the array of objects is wrapped in an object with the key `data` linking to the array.
 
 Or without the use of the built in express server:
 
