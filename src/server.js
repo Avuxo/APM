@@ -11,7 +11,12 @@ const path = require('path');
 class Server{
     constructor(port){
         this.port = port;
-        this.emitter = new EventEmitter();
+        this.emitter = new EventEmitter(); /*
+                                             This event emitter is provided
+                                             so that you can pass it into the
+                                             APM object and have the dashboard
+                                             listen for events.
+                                            */
         this.app = express();
         this.setupRoutes();
         this.data = []; // collected data.
@@ -50,6 +55,7 @@ class Server{
         // this is so the charts can build a past repetoire of data
         this.app.get('/fullMetrics', (req, res) => {
             if(this.data[0] !== undefined){
+                // wrap the array in a JSON object so it can be sent as response
                 let response = {
                     "data": this.data
                 };

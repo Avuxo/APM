@@ -1,3 +1,9 @@
+/* 
+   this script manages obtaining data for and updating the graphs on the `/'
+   endpoint for APM. All charts and graphs are made using the C3js library,
+   based off of D3js.
+*/
+
 // structured data object for updating charts more easily.
 // this is loaded at the start of the program
 // updates are checked every 3000ms, but data is only pushed when
@@ -183,6 +189,7 @@ function updateData(res){
 
     updateCharts();
 }
+
 // update all of the charts with new data
 // assumes the top of the array is new data (is dependent on where it's called from).
 function updateCharts(){
