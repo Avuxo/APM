@@ -9,15 +9,15 @@ Language Agent for Express and Node.js.
 
 ## Purpose
 
-When writing modern Express applications for a large userbase, it's important to see much of your server's limited resources are being used by your app. As such, tools like APM provide an interface to see deep into what your application is doing. Is it allocating too many objects? Are too many strings being allocated? By looking at the numbers and modifying your code, you can check for changes in speed and performance. Through the Express middleware, one can also quickly check and compare the time to complete the requests.
+When writing modern Express applications for a large userbase, it's important to see much of your server's limited resources are being used by your app. As such, tools like APM provide an interface to see deep into what your application is doing. Is it allocating too many objects? Are too many strings being allocated? By looking at the numbers and modifying your code, you can check for changes in speed and performance. Through the Express middleware, one can also quickly check and compare the time to complete requests to your web application.
 
 ## Usage
 
-The APM dashboard provides a wide variety of information in one simple view. All of the information being returned from the Node.js Language agent gets parsed into a simple to read at a glance format. Although the dashboard is not a requirement for usage with (or without) Express, it's recommended.
+The APM dashboard provides a wide variety of information in one simple view. All of the information being returned from the Node.js Language agent gets parsed into a format that's simple to read at a glance. Although the dashboard is not a requirement for usage with (or without) Express, it is recommended.
 
 ![example](graph-screenshot.png)
 
-To embed in express and view the analytics in a browser, simply use the provided middleware:
+To embed in Express and view the analytics in a browser, simply use the provided middleware:
 
 ```js
 const app = require('express')();
@@ -33,7 +33,7 @@ app.use(apm(server.emitter));
 
 // your express code
 ```
-When using APM with Express, the front-end graphs will update every 3 seconds -- assuming there is a change -- and will pull the most recent successful request. All previous requests will be loaded when you open the dashboard for the first time. To load all previous requests (including those missde during the 3 second intervals), refresh the page.
+When using APM with Express, the front-end graphs will update every 3 seconds (assuming there is a change), and will pull the most recent successful request. All previous requests will be loaded when you open the dashboard for the first time. To load all previous requests (including those missde during the 3 second intervals), refresh the page.
 
 The REST endpoint `/metrics` on the APM port will allow you to get the most recent request without the use of the dashboard; the `/fullMetrics` endpoint provides every previous request.
 
