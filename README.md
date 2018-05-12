@@ -114,7 +114,9 @@ app.use(apm(apmServer.emitter)); // MAKE SURE APM is loaded FIRST.
 app.use('/assets', express.static('public'));
 ```
 
-If you now run `$ curl localhost:3000; curl localhost:8080/metrics` you should see a stream of HTML (for the curl call to 3000) and then a REST printout of the most recent request's metrics.
+Simply start the server with `$ node index.js` from the root directory of the project.
+
+If you now run `$ curl localhost:3000; curl localhost:8080/metrics` in another terminal, you should see a stream of HTML (for the curl call to 3000) and then a REST printout of the most recent request's metrics.
 
 
 ## Setup
