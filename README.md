@@ -80,6 +80,42 @@ When not using the express middleware, time checks are not performed. This can e
 
 Furthermore, heap size checks are not performed, but this can also be accessed natively in Node.js. Use the `process.memoryUsage()` function to get this information.
 
+### Usage Example: [Contrast NodeTestBench](https://github.com/Contrast-Security-OSS/NodeTestBench)
+
+Here is a real world example of setting up APM on an existing web app.
+
+1. Clone the repo: `$ git clone https://github.com/Contrast-Security-OSS/NodeTestBench.git`.
+
+2. Enter the directory and install the dependencies. `$ cd NodeTestBench; npm i`.
+
+3. Install `express-apm`: `$ npm i express-apm`.
+
+4. Add the APM code into the existing codebase.
+
+   i) open `index.js` in the NodeTestBench directory and add `const apm = require('express-apm');` on line 10.
+   
+   ii) on the next line, add `const apmServer = new apm.server(8080);` to create an APM local server.
+
+   iii) Finally, on line 15, add `app.use(apm(apmServer.emitter));` to instantiate the event listener.
+
+The final result should look roughly like:
+```js
+const http = require('http');
+const https = require('https');
+const pem = require('pem');
+const apm = require('express-apm');
+const apmServer = new apm.server(8080); // start APM on port 8080
+
+require('./vulnerabilities/static');
+
+const app = express();
+
+app.use(apm(apmServer.emitter)); // MAKE SURE APM is loaded FIRST.
+app.use('/assets', express.static('public'));
+```
+
+If you now run `$ curl localhost:3000; curl localhost:8080/metrics` you should see a stream of HTML (for the curl call to 3000) and then a REST printout of the most recent request's metrics.
+
 
 ## Setup
 
@@ -94,4 +130,3 @@ Installation note: Make sure that you have a version of Python supported by node
 Unit tests can be run with the `$ npm run test
 
 Support tested for Node.js 8 and 9.
- 
