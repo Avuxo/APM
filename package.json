@@ -4,8 +4,8 @@
   "description": "Language agent for Node.js and Express",
   "main": "index.js",
   "scripts": {
-      "test": "mocha tests.js",
-      "install": "node-gyp rebuild"
+    "test": "mocha tests.js",
+    "install": "node-gyp rebuild"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,9 @@
     "nan": "^2.10.0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
     "mocha": "^5.1.1",
-    "should": "^13.2.1"
+    "should": "^13.2.1",
+    "supertest": "^3.0.0"
   }
 }

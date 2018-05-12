@@ -83,13 +83,15 @@ Furthermore, heap size checks are not performed, but this can also be accessed n
 
 ## Setup
 
-1.) Prerequisites: GNU Make, Python, and a c++ compiler (tested with g++ and clang++)
+1. Prerequisites: GNU Make, Python, and a c++ compiler (tested with g++ and clang++)
 
-2.) Install `node-gyp`: the Node native build tool. You can run `npm i node-gyp -g` to install it globally.
+2. Install `node-gyp`: the Node native build tool. You can run `npm i node-gyp -g` to install it globally.
 
-3.) Install the `express-apm` package into your project with `$ npm i express-apm`.
+3. Install the `express-apm` package into your project with `$ npm i express-apm`.
 
 Installation note: Make sure that you have a version of Python supported by node-gyp (= v2.5.0 & < 3.0.0).
+
+Unit tests can be run with the `$ npm run test
 
 Support tested for Node.js 8 and 9.
  
