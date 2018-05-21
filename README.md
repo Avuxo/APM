@@ -129,6 +129,6 @@ If you now run `$ curl localhost:3000; curl localhost:8080/metrics` in another t
 
 Installation note: Make sure that you have a version of Python supported by node-gyp (= v2.5.0 & < 3.0.0).
 
-Unit tests can be run with the `$ npm run test
+Unit tests can be run with the `$ npm run test`.
 
 Support tested for Node.js 8 and 9.
